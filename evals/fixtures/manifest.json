@@ -1,0 +1,66 @@
+{
+  "cases": [
+    {
+      "id": "fmt-001",
+      "file": "cmyk-progressive.jpg",
+      "type": "format-robustness",
+      "description": "CMYK, progressive-encoded JPEG. Browsers decode this fine via createImageBitmap/canvas, but tesseract.js feeds raw File bytes straight to its WASM (Leptonica) decoder rather than going through the browser's own codec, which historically has been the class of format most likely to make that decode throw outright.",
+      "expectOcrStatus": "done",
+      "expect": {
+        "title": { "value": "Rooftop Movie Night" },
+        "date": { "value": "2026-08-15", "exact": true },
+        "time": { "value": "7:30 PM" }
+      }
+    },
+    {
+      "id": "fmt-002",
+      "file": "webp-format.webp",
+      "type": "format-robustness",
+      "description": "WebP. Natively decoded by every modern browser; not guaranteed to be supported by every WASM image-decoding library build.",
+      "expectOcrStatus": "done",
+      "expect": {
+        "title": { "value": "Rooftop Movie Night" },
+        "date": { "value": "2026-08-15", "exact": true },
+        "time": { "value": "7:30 PM" }
+      }
+    },
+    {
+      "id": "fmt-003",
+      "file": "long-screenshot.jpg",
+      "type": "format-robustness",
+      "description": "Very tall (1170x14000) JPEG simulating a scrolling/long-screenshot capture. Stresses the case where a decoder allocates its full raw pixel buffer up front and can run out of WASM heap on unusually large images.",
+      "expectOcrStatus": "done",
+      "expect": {
+        "title": { "value": "Rooftop Movie Night" },
+        "date": { "value": "2026-08-15", "exact": true },
+        "time": { "value": "7:30 PM" }
+      }
+    },
+    {
+      "id": "gr-001",
+      "file": "gr-001-no-date-no-location.jpg",
+      "type": "groundedness",
+      "description": "Synthetic probe: title + description text only. No date, time, or location appears anywhere in the image. Correct behavior is leaving Date/Time/Location blank rather than inventing a plausible-looking value from noise.",
+      "expectOcrStatus": "done",
+      "expect": {
+        "title": { "value": "Open Mic Poetry Night" },
+        "date": { "absent": true },
+        "time": { "absent": true },
+        "location": { "absent": true }
+      }
+    },
+    {
+      "id": "gr-002",
+      "file": "gr-002-no-location.jpg",
+      "type": "groundedness",
+      "description": "Synthetic probe: title + explicit date/time, but no venue name or address anywhere in the image. Correct behavior is leaving Location blank rather than inventing one.",
+      "expectOcrStatus": "done",
+      "expect": {
+        "title": { "value": "Sunset Rooftop Yoga" },
+        "date": { "value": "2026-09-06", "exact": true },
+        "time": { "value": "6:30 PM" },
+        "location": { "absent": true }
+      }
+    }
+  ]
+}

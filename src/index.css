@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", serif;
+  --color-gold-hover: #A48750;
+  --color-gold: #B99A63;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+
+  /*
+   * DICE-inspired dark design system — near-black page, off-white ink, and a
+   * single white "brand" accent (filled pills / active states), echoing
+   * DICE's black-background + white-pill visual language. The 5 hobby
+   * category colors (see data/categories.ts) are unaffected by this theme —
+   * they stay as accent dots/fills on chips and the calendar, same as before.
+   *
+   * "Brand" here means "the single bright accent" — kept under the same
+   * variable names so components that already reference --color-brand-* for
+   * primary buttons / active states don't need to be rewired one by one.
+   */
+  --color-brand: #FFFFFF;
+  --color-brand-dark: #F5F3EF;
+  --color-brand-light: #232320;
+  --color-brand-mid: #8A8579;
+
+  /* Text color to use on top of a filled --color-brand (or --color-ink,
+     which is also light in this theme) background — near-black, so it
+     stays legible no matter which light-accent fill it sits on. Replaces
+     literal `text-white` wherever it was previously paired with a filled
+     brand/ink button so contrast survives the light↔dark flip. */
+  --color-on-brand: #0A0A0A;
+
+  /* surfaces */
+  --color-bg: #0A0A0A;
+  --color-surface: #171613;
+  --color-ink: #F5F3EF;
+  --color-ink-soft: #A39C8C;
+  --color-line: #2C2A25;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+/* Hide scrollbars only on elements that opt in (horizontally scrolling rows),
+   not site-wide — this is a real webpage now, not a phone-frame mockup, so
+   the page's own scrollbar should stay visible. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
