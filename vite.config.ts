@@ -39,5 +39,10 @@ function linkExtractDevMiddleware(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Served from https://divya19chandran.github.io/Mosaic/ (a project page,
+  // not a custom domain) — every built asset URL needs this prefix or they
+  // 404 once deployed. Doesn't affect `npm run dev`, which always serves
+  // from "/".
+  base: '/Mosaic/',
   plugins: [react(), tailwindcss(), linkExtractDevMiddleware(), designModePlugin()],
 })
